@@ -37,6 +37,16 @@ npm start
 
 The server will start running on `http://localhost:5000`.
 
+## Data Normalization
+
+The API enforces data normalization for the author field in book entries. Before saving a new book or querying books by author, the author name is normalized by:
+
+- Trimming leading and trailing spaces
+- Converting to lowercase
+- Replacing consecutive spaces with an underscore (`_`)
+
+For example, if the author name is provided as `"J. K. Rowling"`, it will be normalized and saved as `"j._k._rowling"` in the database.
+
 ## Input Validations
 
 The API implements the following input validations:
@@ -47,7 +57,7 @@ The API implements the following input validations:
 - **Email**: Must be a valid email address and should not contain spaces.
 - **Username**: Should be alphanumeric, should not contain spaces, and must be between 3 and 20 characters long.
 
-### Book Creation
+### Book Creation and Update
 
 - **Title**: Must be between 1 and 50 characters long.
 - **Author**: Must be between 1 and 50 characters long.

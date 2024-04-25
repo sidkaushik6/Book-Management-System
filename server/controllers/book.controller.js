@@ -60,19 +60,58 @@ exports.getBookByProductId = async (req, res) => {
   }
 };
 
-exports.updateBookByProductId = async (req, res) => {
-  try {
-    const book = await Book.findOne({ productId: req.params.productId });
-    if (!book) {
-      return res.status(404).json({ error: "Book not found" });
+// exports.updateBookByProductId = async (req, res) => {
+//   try {
+//     const book = await Book.findOne({ productId: req.params.productId });
+//     if (!book) {
+//       return res.status(404).json({ error: "Book not found" });
+//     }
+//     Object.assign(book, req.body);
+//     await book.save();
+//     res.json(book);
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// };
+
+exports.updateBookByProductId = [
+  validateTitle,
+  validateAuthor,
+  validatePublicationYear,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    Object.assign(book, req.body);
-    await book.save();
-    res.json(book);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
+
+    try {
+      const book = await Book.findOne({ productId: req.params.productId });
+      if (!book) {
+        return res.status(404).json({ error: "Book not found" });
+      }
+
+      // Only update the fields that are passed in the request
+      const updates = {};
+      if (req.body.title) {
+        updates.title = normalizeTitle(req.body.title);
+      }
+      if (req.body.author) {
+        updates.author = normalizeAuthor(req.body.author);
+      }
+      if (req.body.publicationYear) {
+        updates.publicationYear = req.body.publicationYear;
+      }
+
+      // Apply the updates
+      Object.assign(book, updates);
+      await book.save();
+
+      res.json(book);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  },
+];
 
 exports.deleteBookByProductId = async (req, res) => {
   try {
