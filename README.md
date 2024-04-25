@@ -83,3 +83,111 @@ The API implements the following input validations:
  - `200 OK` with JSON Web Token on successful login
  - `400 Bad Request` if invalid credentials
 
+### Books
+
+- `POST /api/books`: Create a new book
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Request body:
+ ```json
+ {
+   "title": "Book Title",
+   "author": "John Doe",
+   "publicationYear": 2022,
+   "productId": "book123"
+ }
+ ```
+- Response:
+ - `201 Created` with the created book object
+ - `400 Bad Request` if validation fails or unauthorized
+
+- `GET /api/books`: Get all books
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Response:
+ - `200 OK` with an array of book objects
+ - `401 Unauthorized` if invalid or missing token
+
+- `GET /api/books/:productId`: Get a book by product ID
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Response:
+ - `200 OK` with the book object
+ - `404 Not Found` if the book is not found
+ - `401 Unauthorized` if invalid or missing token
+
+- `PUT /api/books/:productId`: Update a book by product ID
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Request body:
+ ```json
+ {
+   "title": "Updated Book Title",
+   "author": "Jane Doe",
+   "publicationYear": 2023
+ }
+ ```
+- Response:
+ - `200 OK` with the updated book object
+ - `404 Not Found` if the book is not found
+ - `401 Unauthorized` if invalid or missing token
+ - `400 Bad Request` if validation fails
+
+- `DELETE /api/books/:productId`: Delete a book by product ID
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Response:
+ - `200 OK` with a success message
+ - `404 Not Found` if the book is not found
+ - `401 Unauthorized` if invalid or missing token
+
+- `GET /api/books/author/:author`: Get books by author
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Response:
+ - `200 OK` with an array of book objects
+ - `401 Unauthorized` if invalid or missing token
+
+- `GET /api/books/year/:publicationYear`: Get books by publication year
+- Request headers:
+ ```
+ Authorization: Bearer <jwt_token>
+ ```
+- Response:
+ - `200 OK` with an array of book objects
+ - `401 Unauthorized` if invalid or missing token
+
+## Error Handling
+
+The API returns appropriate error messages and HTTP status codes for different error scenarios, such as:
+
+- `400 Bad Request`: Validation errors or missing required fields
+- `401 Unauthorized`: Invalid or missing authentication token
+- `404 Not Found`: Resource not found
+- `500 Internal Server Error`: Server error
+
+## Contributing
+
+If you want to contribute to this project, please follow these steps:
+
+1. Fork the repository
+2. Create a new branch for your feature or bug fix
+3. Make the necessary changes and commit them
+4. Push your changes to your forked repository
+5. Submit a pull request to the main repository
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
