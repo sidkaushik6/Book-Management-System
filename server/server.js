@@ -14,7 +14,8 @@ app.use(express.json());
 app.use(cors()); // This line requires the 'cors' module
 
 // MongoDB connection
-mongoose.connect("mongodb://localhost/book-management-system", {
+const mongoUri = process.env.MONGODB_URI || "mongodb://localhost/book-management-system";
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
