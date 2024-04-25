@@ -5,9 +5,9 @@ const verifyToken = require('../middleware/auth.middleware');
 
 router.post('/', verifyToken, bookController.createBook);
 router.get('/', verifyToken, bookController.getAllBooks);
-router.get('/:id', verifyToken, bookController.getBookById);
-router.put('/:id', verifyToken, bookController.updateBookById);
-router.delete('/:id', verifyToken, bookController.deleteBookById);
+router.get('/:productId', verifyToken, bookController.getBookByProductId);
+router.put('/:productId', verifyToken, bookController.updateBookByProductId);
+router.delete('/:productId', verifyToken, bookController.deleteBookByProductId);
 router.get('/author/:author', verifyToken, bookController.getBooksByAuthor);
 router.get('/year/:publicationYear', verifyToken, bookController.getBooksByPublicationYear);
 
